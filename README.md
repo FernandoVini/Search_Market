@@ -4,4 +4,4 @@
 
 ### Getting started:
 
-First of all, you need to have python in your machine, so if you don't have, please install it.
+First, you need to have python in your machine, so if you don't have, please install it.
