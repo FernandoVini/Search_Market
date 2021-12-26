@@ -1,5 +1,5 @@
-from flask import Flask, jsonify
-from flask_restx import Api, Resource, reqparse
+from flask import Flask, jsonify, request
+from flask_restx import Api, Resource, reqparse, fields
 from flask_sqlalchemy import SQLAlchemy
 import pathlib
 import datetime
@@ -30,23 +30,83 @@ class Supermarket(db.Model):
         return self.name
 
 
-@api.route('/supermarket/')
-class Supermarket(Resource):
+# MODEL OF SUPERMARKET REGISTRY
+supermarket_model = api.model(
+    'Supermarket',
+    {
+        'id': fields.Integer(),
+        'name': fields.String(),
+        'site': fields.String(),
+        'data_management': fields.DateTime()
+    }
+)
+
+
+@api.route('/supermarkets/')
+class Supermarkets(Resource):
     """
     Api who covers the supermarket's management
     """
+    @api.marshal_list_with(supermarket_model, code=200, envelope='supermarkets')
     def get(self):
-        return jsonify({"Message": "Hello World"})
+        """
+        Getting all saved supermarkets
+        :return: All supermarkets saved objects
+        """
+        supermarkets = Supermarket.query.all()
+        return supermarkets
+
+    @api.marshal_with(supermarket_model, code=201, envelope='supermarket')
     def post(self):
-        ...
+        """
+        Post method to save new supermarket's information
+        :return: Supermarket object
+        """
+        data = request.get_json()
+        name = data.get('name')
+        site = data.get('site')
+
+        new_supermarket = Supermarket(name=name, site=site)
+
+        db.session.add(new_supermarket)
+        db.session.commit()
+
+        return new_supermarket
 
 
-@api.route('/supermarket/<int:id>')
+@api.route('/supermarket/<int:obj_id>')
 class SupermarketResource(Resource):
-    def get(self, id):
-        ...
-    def post(self):
-        ...
+    """
+    Get supermarket by ID
+    """
+
+    @api.marshal_with(supermarket_model, code=200, envelope='supermarket')
+    def get(self, obj_id):
+        """
+        Getting a specific supermarket by ID
+        :param obj_id: supermarket's ID
+        :return: Supermarket Object, HTTP Code
+        """
+        supermarket = Supermarket.query.get_or_404(obj_id)
+        return supermarket, 200
+
+    @api.marshal_with(supermarket_model, envelope='supermarket')
+    def put(self, obj_id):
+        """
+        Updating the existing supermarket's information
+        :param obj_id: supermarket's ID
+        :return: Supermarket object, HTTP Code
+        """
+        on_update = Supermarket.query.get_or_404(obj_id)
+
+        data = request.get_json()
+        on_update.name = data.get('name')
+        on_update.site = data.get('site')
+
+        db.session.commit()
+
+        return on_update, 200
+
     def delete(self):
         ...
 
