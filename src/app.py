@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + str(pathlib.Path(__file__
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
-api = Api(app)
+api = Api(app, title='Supermarket API', description='An API to manage a Scraping application to our partners')
 db = SQLAlchemy(app)
 
 parser = reqparse.RequestParser()
@@ -57,6 +57,7 @@ class Supermarkets(Resource):
         return supermarkets
 
     @api.marshal_with(supermarket_model, code=201, envelope='supermarket')
+    @api.expect(supermarket_model)
     def post(self):
         """
         Post method to save new supermarket's information
@@ -107,7 +108,7 @@ class SupermarketResource(Resource):
 
         return on_update, 200
 
-    @api.marshal_with(supermarket_model, envelope='supermarket')
+    @api.marshal_with(supermarket_model, code=200, envelope='supermarket')
     def delete(self, obj_id):
         """
         This function will delete a supermarket from database
