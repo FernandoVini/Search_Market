@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href ="Estilo_index.css">
+    <title>Conversor</title>
+
+
+</head>
+
+<body>
+<h1>Pesquisa</h1>
+
+<p>Digite o item que deseja: </p>
+<input type = "text" id = "Pesquisa" placeholder="Item:">
+<button onclick="pesquisar()">Pesquisar</button><br>
+
+<div>
+    <p id ="texto">Não há nada aqui.</p>
+</div>
+
+
+
+<script>
+
+    document.addEventListener("keypress", function(e) {
+        if(e.key === 'Enter') {
+            pesquisar();
+    
+        }
+    });
+
+    function pesquisar(){
+        var pesquisa = document.getElementById('Pesquisa').value;
+        document.getElementById('texto').innerHTML = "Mudei aqui.";
+        alert(pesquisa);
+    }
+    
+</script>
+
+</body>
+</html>
