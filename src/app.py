@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from flask_restx import Api, Resource, reqparse
+from flask_restx import Api, Resource, reqparse, fields
 from flask_sqlalchemy import SQLAlchemy
 import pathlib
 import datetime
@@ -30,21 +30,43 @@ class Supermarket(db.Model):
         return self.name
 
 
-@api.route('/supermarket/')
-class Supermarket(Resource):
+# MODEL OF SUPERMARKET REGISTRY
+supermarket_model = api.model(
+    'Supermarket',
+    {
+        'id': fields.Integer(),
+        'name': fields.String(),
+        'site': fields.String(),
+        'data_management': fields.DateTime()
+    }
+)
+
+
+@api.route('/supermarkets/')
+class Supermarkets(Resource):
     """
     Api who covers the supermarket's management
     """
+    @api.marshal_list_with(supermarket_model, code=200, envelope='supermarkets')
     def get(self):
-        return jsonify({"Message": "Hello World"})
+        supermarkets = Supermarket.query.all()
+        return supermarkets
+
     def post(self):
         ...
 
 
-@api.route('/supermarket/<int:id>')
+@api.route('/supermarket/<int:page_id>')
 class SupermarketResource(Resource):
-    def get(self, id):
-        ...
+    """
+    Get supermarket by ID
+    """
+
+    @api.marshal_with(supermarket_model, code=200, envelope='supermarket')
+    def get(self, page_id):
+        supermarket = Supermarket.query.get_or_404(page_id)
+        return supermarket
+
     def post(self):
         ...
     def delete(self):
