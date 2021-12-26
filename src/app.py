@@ -85,7 +85,7 @@ class SupermarketResource(Resource):
         """
         Getting a specific supermarket by ID
         :param obj_id: supermarket's ID
-        :return: Supermarket Object, HTTP Code
+        :return: Supermarket's object, HTTP Code
         """
         supermarket = Supermarket.query.get_or_404(obj_id)
         return supermarket, 200
@@ -95,7 +95,7 @@ class SupermarketResource(Resource):
         """
         Updating the existing supermarket's information
         :param obj_id: supermarket's ID
-        :return: Supermarket object, HTTP Code
+        :return: Supermarket's object, HTTP Code
         """
         on_update = Supermarket.query.get_or_404(obj_id)
 
@@ -107,8 +107,19 @@ class SupermarketResource(Resource):
 
         return on_update, 200
 
-    def delete(self):
-        ...
+    @api.marshal_with(supermarket_model, envelope='supermarket')
+    def delete(self, obj_id):
+        """
+        This function will delete a supermarket from database
+        :param obj_id: Supermarket's ID
+        :return: Supermarket's object, HTTP Code
+        """
+        to_delete = Supermarket.query.get_or_404(obj_id)
+        db.session.delete(to_delete)
+
+        db.session.commit()
+
+        return to_delete, 200
 
 
 @app.shell_context_processor
