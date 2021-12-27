@@ -3,23 +3,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href ="Estilo_index.css">
-    <title>Página do Cliente</title>
+    
+    <title>Login</title>
 
 
 </head>
 
 <body>
-<h1>Pesquisa</h1>
+<h1>Login</h1>
 
-<p>Digite o item que deseja: </p>
-<input type = "text" id = "Pesquisa" placeholder="Item:">
+<form name ="login" id = "login_form" action = "#" method = "post">
+    <label>Item de Pesquisa</label>
+    <input type = "text" id = "Pesquisa" placeholder="Item:">
+    <label>Senha</label>
+    <input type = "password" id = "password" placeholder = "password"><br>
+</form>
+
 <button onclick="pesquisar()">Pesquisar</button><br>
 
-<div>
-    <p id ="texto">Não há nada aqui.</p>
-</div>
 
+ // Este é um código para o adm fazer o login e comprovar que está autorizado a fazer modificações no bd
 
 
 <script>
@@ -33,8 +36,9 @@
 
     function pesquisar(){
         var pesquisa = document.getElementById('Pesquisa').value;
-        document.getElementById('texto').innerHTML = "Mudei aqui.";
+        
         alert(pesquisa);
+        window.location.href = "";
     }
     
 </script>

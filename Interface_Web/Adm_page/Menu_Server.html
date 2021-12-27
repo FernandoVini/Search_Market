@@ -3,22 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel = "stylesheet" href ="Estilo_index.css">
-    <title>Página do Cliente</title>
+    
+    <title>Menu</title>
 
-
+    
 </head>
 
 <body>
-<h1>Pesquisa</h1>
+<h1>Menu</h1>
 
-<p>Digite o item que deseja: </p>
-<input type = "text" id = "Pesquisa" placeholder="Item:">
-<button onclick="pesquisar()">Pesquisar</button><br>
+<button onclick="add()">Add</button><br>
+<button onclick="Delete()">Delete</button><br>
+<button onclick="Update()">Update</button><br>
 
-<div>
-    <p id ="texto">Não há nada aqui.</p>
-</div>
+
 
 
 
@@ -33,11 +31,15 @@
 
     function pesquisar(){
         var pesquisa = document.getElementById('Pesquisa').value;
-        document.getElementById('texto').innerHTML = "Mudei aqui.";
+        
         alert(pesquisa);
+        window.location.href = "";
     }
     
 </script>
 
+    // Este é um código de Menu, baseado em botões de escolha para adcionar, deletar ou atualizar os produtos
+
 </body>
 </html>
+
