@@ -10,7 +10,9 @@ Here's some helpful links:
 
 
 Python: https://phoenixnap.com/kb/how-to-install-python-3-windows
-        https://docs.python-guide.org/starting/install3/linux/
+
+   https://docs.python-guide.org/starting/install3/linux/
         
 Julia:  https://ferrolho.github.io/blog/2019-01-26/how-to-install-julia-on-ubuntu
-        https://datatofish.com/install-julia/
+
+   https://datatofish.com/install-julia/
