@@ -6,6 +6,8 @@ using Pkg
 # Pkg.add("IterableTables")
 # Pkg.add(url="https://github.com/lungben/TableIO.jl")
 # Pkg.add("JDF")
+Pkg.add("HTTP")
+Pkg.add("Gumbo")
 
 # Uncomment to install packages
 
@@ -13,6 +15,8 @@ using SQLite
 using DataFrames
 using IterableTables
 using TableIO
+using HTTP 
+using Gumbo
 
 
 function getting_sites()
@@ -29,7 +33,27 @@ function getting_sites()
 
 end
 
+function scrapping_pages(df::DataFrame)
+    sites = df[!, "site"]
+    
+    for idx in sites
+        try
+            req = HTTP.get("https://"*idx)
+            println("Request: ")
+            parsed = parsehtml(String(req.body))
+            println(parsed)
 
-getting_sites()
+        catch err
+            println(err)
+            continue
+        end
+
+    end
 
 
+end
+
+
+df = getting_sites()
+
+scrapping_pages(df)
