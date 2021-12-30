@@ -6,8 +6,8 @@ using Pkg
 # Pkg.add("IterableTables")
 # Pkg.add(url="https://github.com/lungben/TableIO.jl")
 # Pkg.add("JDF")
-Pkg.add("HTTP")
-Pkg.add("Gumbo")
+# Pkg.add("HTTP")
+# Pkg.add("Gumbo")
 
 # Uncomment to install packages
 
