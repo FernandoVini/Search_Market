@@ -13,3 +13,15 @@ class Supermarket(db.Model):
 
     def __repr__(self):
         return self.name
+
+
+class Admin(db.Model):
+    """
+    Class who represents the website's administrators
+    """
+
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(60), nullable=False)
+    password = db.Column(db.String(20), nullable=False)
+
+
