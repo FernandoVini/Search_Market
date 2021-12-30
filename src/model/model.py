@@ -15,13 +15,22 @@ class Supermarket(db.Model):
         return self.name
 
 
-class Admin(db.Model):
+class User(db.Model):
     """
     Class who represents the website's administrators
     """
 
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(60), nullable=False)
+    username = db.Column(db.String(60), nullable=False)
     password = db.Column(db.String(20), nullable=False)
+    isAdmin = db.Column(db.Boolean(), nullable=False)
+    date_registered = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
+    def __init__(self, username, password, isAdmin):
+        self.username = username
+        self.password = password
+        self.isAdmin = isAdmin
+
+    def __repr__(self):
+        return self.name
 

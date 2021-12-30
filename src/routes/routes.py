@@ -1,7 +1,7 @@
 from src import app, api, db
 from flask_restx import Api, Resource, reqparse, fields
 from flask import request
-from src.model.model import Supermarket
+from src.model.model import Supermarket, User
 
 # MODEL OF SUPERMARKET REGISTRY
 supermarket_model = api.model(
@@ -11,6 +11,17 @@ supermarket_model = api.model(
         'name': fields.String(),
         'site': fields.String(),
         'data_management': fields.DateTime()
+    }
+)
+
+user_model = api.model(
+    'User',
+    {
+        'id': fields.Integer(),
+        'username': fields.String(),
+        'password': fields.String(),
+        'date_registered': fields.DateTime(),
+        'isAdmin': fields.Boolean()
     }
 )
 
@@ -46,6 +57,38 @@ class Supermarkets(Resource):
         db.session.commit()
 
         return new_supermarket
+
+
+@api.route('/users/')
+class Clients(Resource):
+    """
+    An API to users management
+    """
+    @api.marshal_with(user_model, code=201, envelope='client')
+    def get(self):
+        """
+        A method to get all system's users
+        :return:
+        """
+        users = User.query.all()
+        return users
+
+    @api.marshal_with(user_model, code=201, envelope='client')
+    @api.expect(user_model)
+    def post(self):
+        """
+        Post method to get new user's information
+        :return:
+        """
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+        isAdmin = data.get('isAdmin')
+
+        new_user = User(username, password, isAdmin)
+
+        db.session.add(new_user)
+        db.session.commit()
 
 
 @api.route('/supermarket/<int:obj_id>')
@@ -104,5 +147,8 @@ def shell_context():
     """
     return {
         'db': db,
-        'Supermarket': Supermarket
+        'Supermarket': Supermarket,
+        'User': User
     }
+
+
